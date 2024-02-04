@@ -1,0 +1,15 @@
+.container{
+    width: 80%;
+    display: flex;
+    border: 2px solid red;
+    margin-left: 10%;
+    justify-content: space-between;
+
+}
+.container div{
+    border: 2px solid yellow;
+    width: 30%;
+    
+    
+}
+
