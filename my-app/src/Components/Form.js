@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-function Form({addFormData,updatePerson,editablePerson})
+function Form({editablePerson,dispatch})
 {
 
   let initailState = {
@@ -17,10 +17,11 @@ function Form({addFormData,updatePerson,editablePerson})
     e.preventDefault()
     if(editablePerson)
     {
-      updatePerson(Formdata)
+      dispatch({type:'UPDATE',payload:Formdata})
+
     }
     else{
-      addFormData(Formdata);
+      dispatch({type:'ADD',payload:Formdata})
     }
     
  

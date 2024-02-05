@@ -1,7 +1,7 @@
 import './Person.css'
 
 
-function Person({name,age,city,isStudent,children,deletePerson,id,editPerson})
+function Person({name,age,city,isStudent,children,id,editPerson,dispatch})
 {
 
 // conditional
@@ -11,7 +11,7 @@ function Person({name,age,city,isStudent,children,deletePerson,id,editPerson})
         
             <div> 
                 <button onClick={()=>editPerson(id)}>+</button>
-                <button onClick={()=>deletePerson(id)}>X</button>
+                <button onClick={()=>dispatch({type:'DELETE',payload:id})}>X</button>
                 <h1>{name}</h1>
                 <p> {age} </p>
                 <h3> {city} </h3>
