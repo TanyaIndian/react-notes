@@ -1,7 +1,7 @@
 import './Person.css'
 
 
-function Person({name,age,city,isStudent,children})
+function Person({name,age,city,isStudent,children,deletePerson,id,editPerson})
 {
 
 // conditional
@@ -10,6 +10,8 @@ function Person({name,age,city,isStudent,children})
         <>
         
             <div> 
+                <button onClick={()=>editPerson(id)}>+</button>
+                <button onClick={()=>deletePerson(id)}>X</button>
                 <h1>{name}</h1>
                 <p> {age} </p>
                 <h3> {city} </h3>

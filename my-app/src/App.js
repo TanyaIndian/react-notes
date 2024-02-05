@@ -1,17 +1,41 @@
 import './App.css';
 import Video from './Components/Video';
 import data from './Components/data';
-import Person from './Components/Person'
+// import Person from './Components/Person'
 import './Components/Person.css'
 import Button from './Components/Button';
 import { useState } from 'react';
 import Form from './Components/Form';
+import PersonList from './Components/PersonList';
 
 
 function App() {
   const [Videodata,setVideodata] = useState(data)
+  const [editablePerson, setEditablePerson] = useState(null)
+  function deletePerson(id)
+  {
+  //  console.log(id)
+  setVideodata(Videodata.filter(ele=>ele.id !== id))
+  // this filter will create a copy of array videodata with modified data which id should not be present
+  }
+
+  function editPerson(id)
+  {
+    setEditablePerson(Videodata.find(ele=>ele.id===id))
+  // console.log(editablePerson)
+  }
+  function updatePerson(Formdata)
+  {
+    const index = Videodata.findIndex(ele=>ele.id === Formdata.id)
+    const newPerson = [...Videodata];
+    newPerson.splice(index,1,Formdata)
+    setVideodata(newPerson)
+    setEditablePerson(null)
+  }
+
 
    function addFormData(Formdata)
+   //Formdata has been passed from form.js through props called lifting staye up pased from child to parent of form
    {
      setVideodata([...Videodata,{...Formdata,id:Videodata.length+1}])
    }
@@ -32,15 +56,11 @@ function App() {
       "isStudent": true
     }])}}>Add more data </button>  </div>
 
-    <div> <Form addFormData = {addFormData}></Form> </div>
+    <div> <Form editablePerson = {editablePerson} updatePerson = {updatePerson} addFormData = {addFormData}></Form> </div>
 <div className ='container'>
   
-{Videodata.map(person=><Person  age = {person.age} name = {person.name} city = {person.city } isStudent = {person.isStudent} key={person.id}>
-  <Button onPlay = {()=>console.log("Played",person.name)} onPaused = {()=>console.log('paused',person.name)}>{person.name}</Button>
-  {/* button is children of person */}
-  
-   </Person>)
-}
+<PersonList Videodata = {Videodata} editPerson = {editPerson} deletePerson={deletePerson}></PersonList>
+{/* example of sibling we transfer videodata to personlist which is updated with the help of Form and render here */}
 </div>
 
 <div> <h1> Events  </h1>
