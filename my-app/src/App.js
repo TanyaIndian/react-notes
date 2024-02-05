@@ -4,20 +4,56 @@ import data from './Components/data';
 // import Person from './Components/Person'
 import './Components/Person.css'
 import Button from './Components/Button';
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import Form from './Components/Form';
 import PersonList from './Components/PersonList';
 
 
 function App() {
-  const [Videodata,setVideodata] = useState(data)
+  // const [Videodata,setVideodata] = useState(data)
+  const [Videodata,dispatch] = useReducer(videoReducer,data)
+
+
   const [editablePerson, setEditablePerson] = useState(null)
+
+  function videoReducer(Videodata,action)
+  {
+    switch(action.type)
+    {
+      case 'DELETE':
+        return Videodata.filter(ele=>ele.id !== action.payload)
+    
+    case 'ADD':
+
+    return  [...Videodata,{...action.payload,id:Videodata.length+1}]
+
+    case 'UPDATE' :
+      const index = Videodata.findIndex(ele=>ele.id === action.payload.id)
+    const newPerson = [...Videodata];
+    newPerson.splice(index,1,action.payload)
+    
+    setEditablePerson(null)
+      return newPerson
+
+
+      case 'STATICADD' :
+        return [...Videodata,action.payload]
+
+        default:
+          return Videodata
+    
+      }
+      
+  }
+
   function deletePerson(id)
   {
+    dispatch({type:'DELETE',payload:id})
   //  console.log(id)
-  setVideodata(Videodata.filter(ele=>ele.id !== id))
+  // setVideodata(Videodata.filter(ele=>ele.id !== id))
   // this filter will create a copy of array videodata with modified data which id should not be present
   }
+  // dispatch({type:'DELETE',payload:id})
 
   function editPerson(id)
   {
@@ -26,18 +62,21 @@ function App() {
   }
   function updatePerson(Formdata)
   {
-    const index = Videodata.findIndex(ele=>ele.id === Formdata.id)
-    const newPerson = [...Videodata];
-    newPerson.splice(index,1,Formdata)
-    setVideodata(newPerson)
-    setEditablePerson(null)
+
+    dispatch({type:'UPDATE',payload:Formdata})
+    // const index = Videodata.findIndex(ele=>ele.id === Formdata.id)
+    // const newPerson = [...Videodata];
+    // newPerson.splice(index,1,Formdata)
+    // setVideodata(newPerson)
+    // setEditablePerson(null)
   }
 
 
    function addFormData(Formdata)
    //Formdata has been passed from form.js through props called lifting staye up pased from child to parent of form
    {
-     setVideodata([...Videodata,{...Formdata,id:Videodata.length+1}])
+    dispatch({type:'ADD',payload:Formdata})
+    //  setVideodata([...Videodata,{...Formdata,id:Videodata.length+1}])
    }
   return (
     <div className="App">
@@ -48,13 +87,16 @@ function App() {
 <Video text2 = "Html" text1 = "Css"></Video>
 
 <div>conditional rendering</div>
-<div>  <button onClick={()=>{setVideodata([...Videodata,{
+<div>  <button onClick={()=>{ dispatch({type : 'STATICADD',payload:{
       "id": Videodata.length,
       "name": "Rovert",
       "age": 22,
       "city": "Codeburg",
       "isStudent": true
-    }])}}>Add more data </button>  </div>
+    }})
+  }}
+  
+  >Add more data </button>  </div>
 
     <div> <Form editablePerson = {editablePerson} updatePerson = {updatePerson} addFormData = {addFormData}></Form> </div>
 <div className ='container'>
