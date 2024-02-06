@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 function Form({addFormData,updatePerson,editablePerson})
 {
 
+  
   let initailState = {
     
     "city": "Wonderland",
@@ -10,6 +11,7 @@ function Form({addFormData,updatePerson,editablePerson})
     "name" : '',
 "age" : ''  }
   const [Formdata,setFormdata] = useState(initailState)
+  const inpRef = useRef(null)
 
 
   function handleSubmit(e)
@@ -43,13 +45,15 @@ setFormdata({...Formdata,[e.target.name] : e.target.value})
       {
         setFormdata(editablePerson)
       }
+      inpRef.current.focus()
     },[editablePerson])
 
     return(
         <>
         <form>
-            <input type="text" name="name" placeholder="name" onChange={handleChange} value={Formdata.name}></input>
-            <input type="text" name="age" placeholder="age"  onChange={handleChange} value={Formdata.age}></input>
+          {/* to interact with dom element we use  useRef ref is here like document.getEelmentByid */}
+            <input type="text" ref={inpRef} name="name" placeholder="name" onChange={handleChange} value={Formdata.name}></input>
+            <input type="text"  name="age" placeholder="age"  onChange={handleChange} value={Formdata.age}></input>
 
             <button onClick={handleSubmit}> {editablePerson ? 'edit': 'Add Data from Form'}</button>
         </form>
