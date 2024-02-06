@@ -7,6 +7,7 @@ import Button from './Components/Button';
 import { useState } from 'react';
 import Form from './Components/Form';
 import PersonList from './Components/PersonList';
+import Counter from './Components/Counter';
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
     <div className="App">
       
   <div>exaple of props</div>  
+  <Counter></Counter>
 
 <Video text2 = "Nodejs" text1 = "React js"></Video>
 <Video text2 = "Html" text1 = "Css"></Video>
