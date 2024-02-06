@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import VideoContextDispatch from "../context/VideoDispatchContext"
+import useVideoDispatch from "../hook/VideoDispatch"
 
-function Form({editablePerson,dispatch})
+function Form({editablePerson})
 {
+  // const dispatch = useContext(VideoContextDispatch)
+const dispatch = useVideoDispatch()
 
   let initailState = {
     

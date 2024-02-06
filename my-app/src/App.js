@@ -7,12 +7,14 @@ import { useContext, useReducer, useState } from 'react';
 import Form from './Components/Form';
 import PersonList from './Components/PersonList';
 import ThemeContext from './context/ThemeContext';
+import VideoDBContext from './context/VideDBContext';
+import VideoContextDispatch from './context/VideoDispatchContext';
 
 
 function App() {
   // const [Videodata,setVideodata] = useState(data)
 
-const [mode,setMode] = useState('light')
+  const [mode, setMode] = useState('light')
 
   const [editablePerson, setEditablePerson] = useState(null)
 
@@ -86,48 +88,52 @@ const [mode,setMode] = useState('light')
   //   //  setVideodata([...Videodata,{...Formdata,id:Videodata.length+1}])
   //  }
   return (
-    <ThemeContext.Provider value= {mode}>
-    <div className = {`App  ${mode}`} >
-      <button onClick={()=>setMode(mode == 'light' ? 'dark' :'light')}>MODE</button>
+    <ThemeContext.Provider value={mode}>
+      <VideoDBContext.Provider value={Videodata}>
+        <VideoContextDispatch.Provider value={dispatch}>
+        <div className={`App  ${mode}`} >
+          <button onClick={() => setMode(mode == 'light' ? 'dark' : 'light')}>MODE</button>
 
-      <div>exaple of props</div>
+          <div>exaple of props</div>
 
-      <Video text2="Nodejs" text1="React js"></Video>
-      <Video text2="Html" text1="Css"></Video>
+          <Video text2="Nodejs" text1="React js"></Video>
+          <Video text2="Html" text1="Css"></Video>
 
-      <div>conditional rendering</div>
-      <div>  <button onClick={() => {
-        dispatch({
-          type: 'STATICADD', payload: {
-            "id": Videodata.length,
-            "name": "Rovert",
-            "age": 22,
-            "city": "Codeburg",
-            "isStudent": true
-          }
-        })
-      }}
+          <div>conditional rendering</div>
+          <div>  <button onClick={() => {
+            dispatch({
+              type: 'STATICADD', payload: {
+                "id": Videodata.length,
+                "name": "Rovert",
+                "age": 22,
+                "city": "Codeburg",
+                "isStudent": true
+              }
+            })
+          }}
 
-      >Add more data hehe </button>  </div>
+          >Add more data hehe </button>  </div>
 
-      <div> <Form editablePerson={editablePerson} dispatch={dispatch} ></Form> </div>
-      <div className='container'>
+          <div> <Form editablePerson={editablePerson} ></Form> </div>
+          <div className='container'>
 
-        <PersonList Videodata={Videodata} editPerson={editPerson} dispatch={dispatch}></PersonList>
-        {/* example of sibling we transfer videodata to personlist which is updated with the help of Form and render here */}
-      </div>
+            <PersonList  editPerson={editPerson} ></PersonList>
+            {/* example of sibling we transfer videodata to personlist which is updated with the help of Form and render here */}
+          </div>
 
-      <div> <h1> Events  </h1>
-        {/* custom event omSmash we can pas function with props */}
-        <Button onPlay={() => console.log("Played")} onPaused={() => console.log('paused')}>PLAY</Button>
-        {/* we want to do different work with same button so commenting pause button */}
-        {/* <Button onSmash = {()=>console.log("Paused")}>PAUSE</Button> */}
-      </div>
-
-
+          <div> <h1> Events  </h1>
+            {/* custom event omSmash we can pas function with props */}
+            <Button onPlay={() => console.log("Played")} onPaused={() => console.log('paused')}>PLAY</Button>
+            {/* we want to do different work with same button so commenting pause button */}
+            {/* <Button onSmash = {()=>console.log("Paused")}>PAUSE</Button> */}
+          </div>
 
 
-    </div>
+
+
+        </div>
+        </VideoContextDispatch.Provider>
+      </VideoDBContext.Provider>
     </ThemeContext.Provider>
   );
 }
