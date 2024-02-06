@@ -22,6 +22,9 @@ function App() {
 
   function videoReducer(Videodata, action) {
     switch (action.type) {
+
+      case  'LOAD' :
+        return action.payload
       case 'DELETE':
         return Videodata.filter(ele => ele.id !== action.payload)
 
@@ -48,7 +51,7 @@ function App() {
 
   }
 
-  const [Videodata, dispatch] = useReducer(videoReducer, data)
+  const [Videodata, dispatch] = useReducer(videoReducer, [])
 
   function editPerson(id) {
     setEditablePerson(Videodata.find(ele => ele.id === id))
