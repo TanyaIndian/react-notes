@@ -1,18 +1,18 @@
 import './App.css';
 import Video from './Components/Video';
 import data from './Components/data';
-// import Person from './Components/Person'
-import './Components/Person.css'
+import Person from './Components/Person'
 import Button from './Components/Button';
-import { useReducer, useState } from 'react';
+import { useContext, useReducer, useState } from 'react';
 import Form from './Components/Form';
 import PersonList from './Components/PersonList';
+import ThemeContext from './context/ThemeContext';
 
 
 function App() {
   // const [Videodata,setVideodata] = useState(data)
 
-
+const [mode,setMode] = useState('light')
 
   const [editablePerson, setEditablePerson] = useState(null)
 
@@ -86,7 +86,9 @@ function App() {
   //   //  setVideodata([...Videodata,{...Formdata,id:Videodata.length+1}])
   //  }
   return (
-    <div className="App">
+    <ThemeContext.Provider value= {mode}>
+    <div className = {`App  ${mode}`} >
+      <button onClick={()=>setMode(mode == 'light' ? 'dark' :'light')}>MODE</button>
 
       <div>exaple of props</div>
 
@@ -126,6 +128,7 @@ function App() {
 
 
     </div>
+    </ThemeContext.Provider>
   );
 }
 
